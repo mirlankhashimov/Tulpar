@@ -13,7 +13,6 @@ class CategoryController extends Controller
     public function index()
     {
         return Category::all();
-
     }
 
     public function show($id)
@@ -35,10 +34,7 @@ class CategoryController extends Controller
             return response()->json($response, 204);
         }
         Category::create($input);
-        $response = [
-            'success' => true,
-            'Message' => 'Created!'
-        ];
+        $response = ['created' => true,];
         return response()->json($response, 201);
     }
 
@@ -52,15 +48,17 @@ class CategoryController extends Controller
             return response()->json(['errors' => $validator->messages()]);
         }
         $category->update($request->all());
-        return response()->json('Success', 200);
+        $response = [
+            'updated' => true,
+        ];
+        return response()->json($response, 200);
     }
 
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        //$country_category = CountryCategory::where('category_id', $id);
-        //$country_category->delete();
         $category->delete();
-        return response()->json('Deleted', 200);
+        $response = ['deleted' => true];
+        return response()->json($response, 200);
     }
 }
